@@ -7,15 +7,16 @@ import re
 
 patterns = {
             'instruction':  r'^([ \t]*.+:)*[ \t]*(?P<instruction>[a-zA-Z0-9]+?)(?!:)[ \t]',
-            'comma':        r'\s*,\s*',
-            'rd':           r'(?P<rd>\$.+)',
-            'rs':           r'(?P<rs>\$.+)',
-            'rt':           r'(?P<rt>\$.+)',
+            'comma':        r'[\s\t]*,[\s\t]*',
+            'rd':           r'(?P<rd>\$[a-zA-Z0-9]+)',
+            'rs':           r'(?P<rs>\$[a-zA-Z0-9]+)',
+            'rt':           r'(?P<rt>\$[a-zA-Z0-9]+)',
             'shamt':        r'(?P<shamt>\d+)',
             'i':            r'(?P<i>\-?\d+)',
             'i(rs)':        r'(?P<i>\-?\d+)\((?P<rs>\$.+)\)',
             'address':      r'(?P<address>\d+)',
             'label':        r'^[ \t]*(?P<label>.+:)',
+            'eol':          r'[\s\t]*;?[/s/t]*(#.*)?$',
            }
 
 registers = {
