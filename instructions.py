@@ -1,4 +1,17 @@
 #!/usr/bin/env python
+import re
+
+patterns = {
+            'instruction':  re.compile(r'^[ \t]*(?P<instruction>.*?)[ \t]'),
+            'comma':        re.compile(r'\s*,\s*'),
+            'rd':           re.compile(r'(?P<rd>\$.+)'),
+            'rs':           re.compile(r'(?P<rs>\$.+)'),
+            'rt':           re.compile(r'(?P<rt>\$.+)'),
+            'shamt':        re.compile(r'(?P<shamt>\d+)'),
+            'i':            re.compile(r'(?P<i>\-?\d+)'),
+            'i(rs)':        re.compile(r'(?P<i>\-?\d+)\((?P<rs>\$.+)\)'),
+            'address':      re.compile(r'(?P<address>\d+)'),
+           }
 
 registers = {
             'zero': 0,
