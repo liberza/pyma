@@ -2,7 +2,7 @@
 import re
 
 patterns = {
-            'instruction':  re.compile(r'^[ \t]*(?P<instruction>.*?)[ \t]'),
+            'instruction':  re.compile(r'^([ \t]*.+:)*[ \t]*(?P<instruction>[a-zA-Z0-9]+?)(?!:)[ \t]'),
             'comma':        re.compile(r'\s*,\s*'),
             'rd':           re.compile(r'(?P<rd>\$.+)'),
             'rs':           re.compile(r'(?P<rs>\$.+)'),
@@ -11,6 +11,7 @@ patterns = {
             'i':            re.compile(r'(?P<i>\-?\d+)'),
             'i(rs)':        re.compile(r'(?P<i>\-?\d+)\((?P<rs>\$.+)\)'),
             'address':      re.compile(r'(?P<address>\d+)'),
+            'label':        re.compile(r'^[ \t]*(?P<label>.+:)'),
            }
 
 registers = {
