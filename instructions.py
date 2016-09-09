@@ -1,17 +1,21 @@
 #!/usr/bin/env python
 import re
 
+# need to go through file once, noting all labels and their associated instruction number.
+# if a label is on the same line as an instruction, use that instruction number
+# otherwise, find the next instruction and use that number.
+
 patterns = {
-            'instruction':  re.compile(r'^([ \t]*.+:)*[ \t]*(?P<instruction>[a-zA-Z0-9]+?)(?!:)[ \t]'),
-            'comma':        re.compile(r'\s*,\s*'),
-            'rd':           re.compile(r'(?P<rd>\$.+)'),
-            'rs':           re.compile(r'(?P<rs>\$.+)'),
-            'rt':           re.compile(r'(?P<rt>\$.+)'),
-            'shamt':        re.compile(r'(?P<shamt>\d+)'),
-            'i':            re.compile(r'(?P<i>\-?\d+)'),
-            'i(rs)':        re.compile(r'(?P<i>\-?\d+)\((?P<rs>\$.+)\)'),
-            'address':      re.compile(r'(?P<address>\d+)'),
-            'label':        re.compile(r'^[ \t]*(?P<label>.+:)'),
+            'instruction':  r'^([ \t]*.+:)*[ \t]*(?P<instruction>[a-zA-Z0-9]+?)(?!:)[ \t]',
+            'comma':        r'\s*,\s*',
+            'rd':           r'(?P<rd>\$.+)',
+            'rs':           r'(?P<rs>\$.+)',
+            'rt':           r'(?P<rt>\$.+)',
+            'shamt':        r'(?P<shamt>\d+)',
+            'i':            r'(?P<i>\-?\d+)',
+            'i(rs)':        r'(?P<i>\-?\d+)\((?P<rs>\$.+)\)',
+            'address':      r'(?P<address>\d+)',
+            'label':        r'^[ \t]*(?P<label>.+:)',
            }
 
 registers = {
