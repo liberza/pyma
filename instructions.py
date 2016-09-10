@@ -6,24 +6,24 @@ import re
 # otherwise, find the next instruction and use that number.
 
 patterns = {
-            'instruction':  r'^([ \t]*.+:)*[ \t]*(?P<instruction>[a-zA-Z0-9]+?)(?!:)[ \t]',
-            'comma':        r'[\s\t]*,[\s\t]*',
-            'rd':           r'(?P<rd>\$[a-zA-Z0-9]+)',
-            'rs':           r'(?P<rs>\$[a-zA-Z0-9]+)',
-            'rt':           r'(?P<rt>\$[a-zA-Z0-9]+)',
+            'instruction':  r'^(?:[\s]*.+:)*[\s]*(?P<instruction>[a-zA-Z0-9]+?)(?!:)[\s]',
+            'comma':        r'[\s]*,[\s]*',
+            'rd':           r'\$(?P<rd>[a-zA-Z0-9]+)',
+            'rs':           r'\$(?P<rs>[a-zA-Z0-9]+)',
+            'rt':           r'\$(?P<rt>[a-zA-Z0-9]+)',
             'shamt':        r'(?P<shamt>\d+)',
             'i':            r'(?P<i>\-?\d+)',
             'i(rs)':        r'(?P<i>\-?\d+)\((?P<rs>\$.+)\)',
             'address':      r'(?P<address>\d+)',
-            'label':        r'^[ \t]*(?P<label>.+:)',
-            'eol':          r'[\s\t]*;?[/s/t]*(#.*)?$',
+            'label':        r'^[\s]*(?P<label>.+:)',
+            'eol':          r'[\s]*;?[\s]*(?:#.*)?$',
            }
 
 registers = {
             'zero': 0,
             'at':   1,
             'v0':   2,
-            'v1':   3
+            'v1':   3,
             'a0':   4,
             'a1':   5,
             'a2':   6,
@@ -97,8 +97,8 @@ i_types = {
             'lui':   (0x0F, None, ('rt', 'i')),
             'lw':    (0x23, None, ('rt', 'i(rs)')),
             'ori':   (0x0D, None, ('rt', 'rs', 'i')),
-            'sb':    (0x28, None, ('rt', 'i(rs)'),
-            'sh':    (0x29, None, ('rt', 'i(rs)'),
+            'sb':    (0x28, None, ('rt', 'i(rs)')),
+            'sh':    (0x29, None, ('rt', 'i(rs)')),
             'slti':  (0x0A, None, ('rt', 'rs', 'i')),
             'sltiu': (0x0B, None, ('rt', 'rs', 'i')),
             'sw':    (0x2B, None, ('rt', 'i(rs)')),
@@ -108,3 +108,15 @@ i_types = {
 j_types = {'j':     0x02,
            'jal':   0x03,
           }
+
+pattern = r''
+addiu_syntax = i_types['addiu'][2]
+i = 1
+for p in addiu_syntax:
+    pattern += patterns[p]
+    if i != len(addiu_syntax):
+        pattern += patterns['comma']
+    i += 1
+pattern += patterns['eol']
+
+print(pattern)
