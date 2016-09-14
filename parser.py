@@ -102,6 +102,78 @@ class Parser():
         'jal':   {'type':'j', 'op':0x03},
         }
 
+    def get_register(self, r):
+    '''
+    Returns the register number associated with r.
+    If r is the string representation of a register number, it 
+    gets returned as an int.
+    '''
+        if r in self.registers:
+            return self.registers[r]
+        else if (int(r) >= 0) and (int(r) <= 31):
+            return int(r)
+        else:
+            return False
+
+    def parse_instruction(self, line):
+        # allow for labels on the same line as an instruction.
+        pattern = patterns['label'] + patterns['instruction']
+        m = re.search(pattern, line)
+        i = self.instructions.get(m.group('instruction'))
+        if i is not None:
+            for arg in i['syntax']:
+                pattern += patterns[p]
+                if i != len(i['syntax']):
+                    pattern += patterns['comma']
+                i += 1
+            pattern += patterns['eol']
+                
+            m = re.search(pattern, line)
+            
+            if i['type'] == 'r':
+                # working on this
+                bits = assemble_rtype(i['func'],
+                                      rs,
+                                      rt,
+                                      rd,
+                                      shamt,
+                                      op)
+            elif i['type'] == 'i':
+                bits = assemble_itype()
+            elif i['type'] == 'j':
+                bits = assemble_jtype()
+            else:
+                raise Exception('Unsupported instruction type.')
+                return
+            return bits
+        else:
+            return False
+
+    def assemble_rtype(self, func, rs=0, rt=0, rd=0, shamt=0, op=0):
+        bits = ''
+        bits += '{0:06b}'.format(op)
+        bits += '{0:05b}'.format(rs)
+        bits += '{0:05b}'.format(rt)
+        bits += '{0:05b}'.format(rd)
+        bits += '{0:05b}'.format(shamt)
+        bits += '{0:06b}'.format(func)
+        return bits
+
+    def assemble_itype(self, op, rt=0, rs=0, i=0):
+        bits = ''
+        bits += '{0:06b}'.format(op)
+        bits += '{0:05b}'.format(rs)
+        bits += '{0:05b}'.format(rt)
+        bits += '{0:016b}'.format(i)
+        return bits
+
+    def assemble_jtype(self, op, target):
+        bits = ''
+        bits += '{0:06b}'.format(op)
+        bits += '{0:026b}'.format(target)
+        return bits
+        
+
 pattern = r''
 addiu_syntax = i_types['addiu'][2]
 i = 1
