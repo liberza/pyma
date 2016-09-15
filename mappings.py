@@ -2,20 +2,20 @@
 
 class Mappings():
     patterns = {
-        'instruction':  r'^(?:[\s]*.+:)*[\s]*(?P<instruction>[a-zA-Z0-9]+?)(?!:)[\s]',
+        'instruction':  r'[\s]*(?P<instruction>[a-zA-Z0-9]+?)(?!:)[\s]',
         'comma':        r'[\s]*,[\s]*',
         'rd':           r'\$(?P<rd>[a-zA-Z0-9]+)',
         'rs':           r'\$(?P<rs>[a-zA-Z0-9]+)',
         'rt':           r'\$(?P<rt>[a-zA-Z0-9]+)',
         'shamt':        r'(?P<shamt>\d+)',
-        'i':            r'(?P<i>\-?\d+)',
-        'i(rs)':        r'(?P<i>\-?\d+)\((?P<rs>\$.+)\)',
+        'i':            r'(?P<i>\-?(0[xX][0-9a-fA-F]+|\d+))',
+        'i(rs)':        r'(?P<i>\-?(0[xX][0-9a-fA-F]+|\d+))\((?P<rs>\$.+)\)',
         'address':      r'(?P<address>\d+)',
         'label':        r'^[\s]*(?P<label>.+:)',
         'eol':          r'[\s]*;?[\s]*(?:#.*)?$',
         }
 
-        registers = {
+    registers = {
         'zero': 0,
         'at':   1,
         'v0':   2,
