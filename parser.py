@@ -84,17 +84,17 @@ class Parser():
             if i['type'] == 'r':
                 for arg in r_groups:
                     if arg not in a:
-                        a[arg] = 0
+                        a[arg] = '0'
                 bits = self.assemble_rtype(i['func'], a['rs'], a['rt'], a['rd'], a['shamt'], i['op'])
             elif i['type'] == 'i':
                 for arg in i_groups:
                     if arg not in a:
-                        a[arg] = 0
+                        a[arg] = '0'
                 bits = self.assemble_itype(i['op'], a['rs'], a['rt'], a['i'])
             elif i['type'] == 'j':
                 for arg in j_groups:
                     if arg not in a:
-                        a[arg] = 0
+                        a[arg] = '0'
                 bits = self.assemble_jtype(i['op'], a['address'])
             else:
                 raise SyntaxException('Unsupported instruction type.')
