@@ -7,9 +7,9 @@ def hexstr(bits):
     return '{0:08x}'.format(h)
 
 if __name__ == '__main__':
+    f = open("prog2.asm")
     p = Parser()
     h = ''
-    h += hexstr(p.parse_instruction('addi $t1, $t2, 0x400'))
-    h += hexstr(p.parse_instruction('sll $t4, $t8, 0x4'))
-    h += hexstr(p.parse_instruction('jr $t2'))
+    for line in f:
+        h += hexstr(p.parse_instruction(line)) + '\n'
     print(h)
